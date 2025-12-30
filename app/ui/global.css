@@ -2,6 +2,32 @@
 @tailwind components;
 @tailwind utilities;
 
+/* =====================
+   LIGHT MODE (default)
+   ===================== */
+:root {
+  --color-brand-primary: #2589fe;
+  --color-brand-primary-hover: #0070f3;
+  --color-brand-primary-active: #2f6feb;
+  /* Page background (light mode) */
+  /*--page-bg: #f9fafb;*/
+}
+
+/* =====================
+   DARK MODE
+   ===================== */
+[data-theme='dark'] {
+  --color-brand-primary: #0d1321;
+  --color-brand-primary-hover: #c884a6;
+  --color-brand-primary-active: #9db17c;
+  /* Page background (dark mode) */
+  --page-bg: #020617;
+}
+
+body {
+  background-color: var(--page-bg);
+}
+
 input[type='number'] {
   -moz-appearance: textfield;
   appearance: textfield;
