@@ -1,6 +1,7 @@
 import AcmeLogo from '@/app/ui/acme-logo';
 import { ArrowRightIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
+import Image from 'next/image';
 
 export default function Page() {
   return (
@@ -54,6 +55,103 @@ export default function Page() {
         </div>
         <div className="flex items-center justify-center p-6 md:w-3/5 md:px-28 md:py-12">
           {/* Add Hero Images Here */}
+          <Image
+            /* 
+    Next.js Image component
+    - Replaces the native <img> tag
+    - Enables automatic image optimization, lazy loading,
+      correct sizing, and prevents layout shift (CLS)
+  */
+            src="/hero-desktop.png"
+            /*
+    Path to the image inside the /public directory.
+    This resolves to: public/hero-desktop.png
+
+    Because this is a local static asset:
+    - Next.js can optimize it at build time
+    - No external network request is needed
+  */
+
+            width={1000}
+            height={760}
+            /*
+    These define the image's INTRINSIC dimensions.
+    They are NOT the rendered size on screen.
+
+    Purpose:
+    - Establish the correct aspect ratio
+    - Allow the browser to reserve space before loading
+    - Prevent layout shift (CLS)
+
+    Visual size is controlled later via CSS / layout.
+  */
+
+            className="hidden md:block"
+            /*
+    Tailwind utility classes controlling RESPONSIVE VISIBILITY.
+
+    - `hidden` → display: none (hide by default on all screens)
+    - `md:block` → display: block when viewport >= 768px
+
+    Result:
+    - Image is hidden on mobile
+    - Image is shown on desktop
+
+    Tailwind converts this into CSS media queries at build time.
+  */
+
+            alt="Screenshots of the dashboard project showing desktop version"
+            /*
+    Accessible alternative text:
+    - Used by screen readers
+    - Used by search engines
+    - Required for meaningful images
+
+    This image conveys information, so a descriptive alt is correct.
+  */
+          />
+
+          <Image
+            /*
+    Second Image component for the MOBILE version.
+    This is a different asset, not just a resized version.
+    This pattern is called "art-direction".
+  */
+            src="/hero-mobile.png"
+            /*
+    Points to: public/hero-mobile.png
+
+    Smaller image tailored specifically for mobile screens.
+    Saves bandwidth and improves performance on small devices.
+  */
+
+            width={560}
+            height={620}
+            /*
+    Intrinsic dimensions for the mobile image.
+    Again:
+    - Preserves aspect ratio
+    - Prevents layout shift
+  */
+
+            className="md:hidden"
+            /*
+    Responsive visibility rule:
+
+    - Visible by default (mobile-first)
+    - Hidden at `md` breakpoint and above (>= 768px)
+
+    Result:
+    - Image is shown on mobile
+    - Image is hidden on desktop
+  */
+
+            alt="Screenshots of the dashboard project showing mobile version"
+            /*
+    Alt text specific to the mobile screenshot.
+    Keeps accessibility accurate and descriptive.
+  */
+          />
         </div>
       </div>
     </main>
