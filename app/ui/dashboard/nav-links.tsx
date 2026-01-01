@@ -30,9 +30,10 @@ export default function NavLinks() {
             key={link.name}
             href={link.href}
             className={clsx(
-              'flex h-[48px] grow items-center justify-center gap-2 rounded-md bg-gray-50 p-3 text-primary font-limelight hover:bg-sky-100 hover:text-blue-600 md:flex-none md:justify-start md:p-2 md:px-3',
+              //clsx is a utility for constructing className strings conditionally.Meaning it helps to dynamically apply CSS classes based on certain conditions.
+              'flex h-[48px] grow items-center justify-center gap-2 rounded-md bg-gray-50 p-3 text-black font-limelight hover:bg-sky-100 hover:text-red-600 md:flex-none md:justify-start md:p-2 md:px-3',
               {
-                'bg-sky-100 text-blue-600': pathname === link.href,
+                'bg-sky-100 text-red-600': pathname === link.href,
               }
             )}
           >
