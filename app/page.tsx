@@ -1,9 +1,19 @@
 import AcmeLogo from '@/app/ui/acme-logo';
+import CommentForm from '@/app/ui/comment-form';
 import { ArrowRightIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import Image from 'next/image';
+import { neon } from '@neondatabase/serverless';
 
 export default function Page() {
+  async function create(formData: FormData) {
+    'use server';
+    // Connect to the Neon database
+    const sql = neon(`${process.env.DATABASE_URL}`);
+    const comment = formData.get('comment');
+    // Insert the comment from the form into the Postgres database
+    await sql`INSERT INTO comments (comment) VALUES (${comment})`;
+  }
   return (
     <main className="flex min-h-screen flex-col p-6">
       <div className="flex h-20 shrink-0 items-end rounded-lg bg-primaryHover p-4 md:h-52">
@@ -52,9 +62,11 @@ export default function Page() {
             <span>Log in, Nabla font</span>{' '}
             <ArrowRightIcon className="w-5 md:w-6" />
           </Link>
+          {/* Add a simple form to submit comments to the database */}
+          <CommentForm create={create} />
         </div>
         <div className="flex items-center justify-center p-6 md:w-3/5 md:px-28 md:py-12">
-          {/* Add Hero Images Here */}
+          ;{/* Add Hero Images Here */}
           <Image
             /* 
     Next.js Image component
@@ -110,7 +122,6 @@ export default function Page() {
     This image conveys information, so a descriptive alt is correct.
   */
           />
-
           <Image
             /*
     Second Image component for the MOBILE version.
