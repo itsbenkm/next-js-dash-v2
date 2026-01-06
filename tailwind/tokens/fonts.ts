@@ -1,5 +1,3 @@
-import { french, german, nabla } from '@/app/ui/fonts';
-
 export const fonts = {
   // =========================================================
   // EXPERIMENTAL TYPOGRAPHY TOKENS
