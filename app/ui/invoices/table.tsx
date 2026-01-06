@@ -1,22 +1,29 @@
-import Image from 'next/image'
-import { UpdateInvoice, DeleteInvoice } from '@/app/ui/invoices/buttons'
-import InvoiceStatus from '@/app/ui/invoices/status'
-import { formatDateToLocal, formatCurrency } from '@/app/lib/utils'
-import { fetchFilteredInvoices } from '@/app/lib/data'
+import Image from 'next/image';
+import { UpdateInvoice, DeleteInvoice } from '@/app/ui/invoices/buttons';
+import InvoiceStatus from '@/app/ui/invoices/status';
+import { formatDateToLocal, formatCurrency } from '@/app/lib/utils';
+import { fetchFilteredInvoices } from '@/app/lib/data';
 
+// This is an Async Server Component that fetches and displays a list of invoices
 export default async function InvoicesTable({
   query,
   currentPage,
 }: {
-  query: string
-  currentPage: number
+  query: string;
+  currentPage: number;
 }) {
-  const invoices = await fetchFilteredInvoices(query, currentPage)
+  // 1. Fetch filtered invoices from the database based on search query and page number
+  const invoices = await fetchFilteredInvoices(query, currentPage);
 
   return (
     <div className="mt-6 flow-root">
       <div className="inline-block min-w-full align-middle">
         <div className="rounded-lg bg-gray-50 p-2 md:pt-0">
+          {/* 
+            MOBILE VIEW
+            - Visible only on small screens (md:hidden)
+            - Renders cards instead of a table for better mobile UX
+          */}
           <div className="md:hidden">
             {invoices?.map((invoice) => (
               <div
@@ -37,15 +44,19 @@ export default async function InvoicesTable({
                     </div>
                     <p className="text-sm text-gray-500">{invoice.email}</p>
                   </div>
+                  {/* Status Indicator (Pending/Paid) */}
                   <InvoiceStatus status={invoice.status} />
                 </div>
                 <div className="flex w-full items-center justify-between pt-4">
                   <div>
+                    {/* Format amounts to currency string */}
                     <p className="text-xl font-medium">
                       {formatCurrency(invoice.amount)}
                     </p>
+                    {/* Format date to local string */}
                     <p>{formatDateToLocal(invoice.date)}</p>
                   </div>
+                  {/* Action Buttons: Edit and Delete */}
                   <div className="flex justify-end gap-2">
                     <UpdateInvoice id={invoice.id} />
                     <DeleteInvoice id={invoice.id} />
@@ -54,6 +65,13 @@ export default async function InvoicesTable({
               </div>
             ))}
           </div>
+
+          {/* 
+            DESKTOP VIEW
+            - Hidden on small screens (hidden)
+            - Visible on medium screens and up (md:table)
+            - Standard table layout
+          */}
           <table className="hidden min-w-full text-gray-900 md:table">
             <thead className="rounded-lg text-left text-sm font-normal">
               <tr>
@@ -120,5 +138,5 @@ export default async function InvoicesTable({
         </div>
       </div>
     </div>
-  )
+  );
 }

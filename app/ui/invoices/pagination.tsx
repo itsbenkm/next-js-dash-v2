@@ -9,12 +9,16 @@ import { usePathname, useSearchParams } from 'next/navigation';
 export default function Pagination({ totalPages }: { totalPages: number }) {
   // NOTE: Uncomment this code in Chapter 10
 
+  // 1. Get the current path and search params from the URL
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const currentPage = Number(searchParams.get('page')) || 1;
 
+  // 2. Generate the array of page numbers to display (e.g., [1, 2, 3, '...', 10])
   const allPages = generatePagination(currentPage, totalPages);
 
+  // 3. Create a URL for a specific page number
+  // It preserves other query parameters and updates the 'page' parameter
   const createPageURL = (pageNumber: number | string) => {
     const params = new URLSearchParams(searchParams);
     params.set('page', pageNumber.toString());
@@ -26,6 +30,7 @@ export default function Pagination({ totalPages }: { totalPages: number }) {
       {/*  NOTE: Uncomment this code in Chapter 10 */}
 
       <div className="inline-flex">
+        {/* Previous Page Arrow */}
         <PaginationArrow
           direction="left"
           href={createPageURL(currentPage - 1)}
@@ -36,6 +41,7 @@ export default function Pagination({ totalPages }: { totalPages: number }) {
           {allPages.map((page, index) => {
             let position: 'first' | 'last' | 'single' | 'middle' | undefined;
 
+            // Determine the position of the page number for styling (rounded corners)
             if (index === 0) position = 'first';
             if (index === allPages.length - 1) position = 'last';
             if (allPages.length === 1) position = 'single';
@@ -63,6 +69,7 @@ export default function Pagination({ totalPages }: { totalPages: number }) {
   );
 }
 
+// Component to render individual page numbers
 function PaginationNumber({
   page,
   href,
@@ -85,6 +92,7 @@ function PaginationNumber({
     }
   );
 
+  // If active or is an ellipsis, don't make it a link
   return isActive || position === 'middle' ? (
     <div className={className}>{page}</div>
   ) : (
@@ -94,6 +102,7 @@ function PaginationNumber({
   );
 }
 
+// Component to render navigation arrows (prev/next)
 function PaginationArrow({
   href,
   direction,
